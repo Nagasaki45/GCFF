@@ -41,6 +41,7 @@ If you find GCFF useful in your research, please consider citing:
 ### Data
 
 In order to run the example provided and to reproduce the experiments of the original paper, you may want to download the datasets [here](http://vips.sci.univr.it/research/fformation/download/data.zip).
+The dataset can be downloaded with `python get_dataset.py`.
 
 Each dataset folder contains 3 files:
 - 'features.mat' -> all the detections are stored in the variable 'features'; features{t} is an Nx4 matrix that stores all the detections at frame 't', columns are [ ID, x, y, orientation ]

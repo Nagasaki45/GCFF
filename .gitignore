@@ -1,2 +1,4 @@
 graphopt/*.o
 graphopt/*.mex*
+data/
+octave-workspace

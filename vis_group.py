@@ -6,16 +6,10 @@ Created on Mon Jul  1 17:16:31 2013
 """
 import numpy as np
 from scipy import io
-path='/home/francesco/Copy/Fformation/data/Poster/'
-#path='/home/francesco/Copy/Fformation/data/CocktailParty/'
-#path='/home/francesco/Copy/Fformation/data/CofeeBreak/Seq1/'
-#
-#path='/home/chrisr/Data/Groups/Poster/'
-#path='/home/chrisr/Data/Groups/CocktailParty/'##Fucked never use
-#path='/home/chrisr/Data/Groups/CoffeeBreak/Seq1/'
+path = 'data/Synth/'
 a=io.loadmat(path+'features.mat')
 f=a['features'][0]
-a=io.loadmat(path+'groundtruth_A') #'groundtruth_A' or #'groundtruth'
+a=io.loadmat(path+'groundtruth') #'groundtruth_A' or #'groundtruth'
 
 gt=a['GTgroups'][0]
 
@@ -25,7 +19,7 @@ gt=a['GTgroups'][0]
 ## Reindex these frames
 oldgt=gt
 gt=np.empty_like(oldgt)
-for i in xrange(gt.shape[0]):
+for i in range(gt.shape[0]):
     g=oldgt[i].reshape(-1)
     #Transpose error from one dataset to another
     #size=f[i][:,0].size#(g.size<1) or max([(x.size<1) or x.max() for x in g])
@@ -36,7 +30,7 @@ for i in xrange(gt.shape[0]):
         invert[out]=np.arange(out.size)
         array=np.arange(out.size)
         ## Labels don't mean anything but label l+1 occurs next 1 making visualisation difficult
-        for j in xrange(g.shape[0]):        
+        for j in range(g.shape[0]):        
             if g[j].size>0:
                 g2=g[j].reshape(-1).astype(np.int)
                 #Transpose error from one dataset to another
@@ -47,7 +41,7 @@ for i in xrange(gt.shape[0]):
         gt[i]=a
 
 mask=np.empty(f.shape[0],dtype=np.bool)
-for i in xrange(f.shape[0]):
+for i in range(f.shape[0]):
     mask[i]=f[i].shape[0]>0
 
 f=f[mask]
@@ -102,7 +96,7 @@ def calc_distance_vis(loc,f,labels,mdl,ax):
     u=np.unique(labels)
     dist=np.empty((loc.shape[0],u.shape[0]))
     dist2=np.zeros_like(dist)
-    for i in xrange(u.shape[0]):
+    for i in range(u.shape[0]):
         means=loc[labels==i,:].mean(0)
         ells = Ellipse(means,np.sqrt(mdl), np.sqrt(mdl),0)
         ells.set_alpha(0.1)
@@ -142,7 +136,7 @@ def calc_distance_old(loc,labels,mdl):
     u=np.unique(labels)
     dist=np.empty((loc.shape[0],u.shape[0]))
     dist2=np.zeros_like(dist)
-    for i in xrange(u.shape[0]):
+    for i in range(u.shape[0]):
         means=loc[labels==i,:].mean(0)
         disp=loc-means
         dist[:,i]=(disp**2).sum(1)
@@ -164,7 +158,7 @@ def calc_distance(loc,f,labels,mdl):
     labelling"""           
     u=np.unique(labels)
     dist=np.empty((loc.shape[0],u.shape[0]))
-    for i in xrange(u.shape[0]):
+    for i in range(u.shape[0]):
         means=loc[labels==i,:].mean(0)      
         dist[:,i]=((loc-means)**2).sum(1)
         #computed sum-squares distance, now
@@ -192,7 +186,7 @@ def gc(f,stride=35,MDL=3500):
     neigh=blank
     weight=blank
     seg=np.arange(f.shape[0],dtype=np.double)
-    for i in xrange(5):
+    for i in range(5):
         mdl=np.ones(unary.shape[1])*MDL
         #Run Graph-cuts
         #_,seg=segmentation.expand(unary,neigh,weight,mdl,seg.astype(np.double))
@@ -206,7 +200,7 @@ def gc(f,stride=35,MDL=3500):
 def make_est(f,stride=35,mdl=3500):
     """Solve entire sequence"""
     est=np.empty(f.shape[0],dtype=object)
-    for i in xrange(f.shape[0]):
+    for i in range(f.shape[0]):
         est[i]=gc(f[i],stride,mdl)
     return est
     

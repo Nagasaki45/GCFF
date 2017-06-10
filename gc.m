@@ -1,6 +1,8 @@
 function seg = gc( f, stride, MDL_in)
 % Runs graph-cuts
 
+pkg load statistics
+addpath ('graphopt')
 
 locs = find_locs( f, stride ) ;
 unary = init( locs, f, MDL_in ) ;

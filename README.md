@@ -52,7 +52,19 @@ If you find GCFF useful in your research, please consider citing:
 - Install python and its dependencies with `conda env create -f environment.yml`.
 - Activate the conda environment with `source activate GCFF`.
 
-Now, use `gcff.py` to run the algorithm.
+#### Using in code
+
+See `gcff.py`.
+
+#### Using as a web server
+
+- Modify `server_settings.py` to your needs.
+- `python server.py`.
+- Optionally, check that everything runs smoothly from another terminal:
+```bash
+curl --header "Content-Type: text/csv" --data "`cat features_example.csv`" http://localhost:5000/
+```
+- Build a client in whatever language you want!
 
 
 ### Data

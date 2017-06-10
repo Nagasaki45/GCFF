@@ -38,6 +38,23 @@ If you find GCFF useful in your research, please consider citing:
     }
 
 
+### Using with python
+
+#### Prerequisites:
+
+- [octave](https://www.gnu.org/software/octave/) (make sure that both `octave` and `octave-cli` are in your path).
+- [octave-statistics](https://www.gnu.org/software/octave/doc/interpreter/Statistics.html).
+- [conda](https://conda.io/docs/index.html).
+
+#### Get ready
+
+- Compile octave dependencies with `./build.sh`.
+- Install python and its dependencies with `conda env create -f environment.yml`.
+- Activate the conda environment with `source activate GCFF`.
+
+Now, use `gcff.py` to run the algorithm.
+
+
 ### Data
 
 In order to run the example provided and to reproduce the experiments of the original paper, you may want to download the datasets [here](http://vips.sci.univr.it/research/fformation/download/data.zip).

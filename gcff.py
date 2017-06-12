@@ -6,6 +6,7 @@ http://vips.sci.univr.it/research/fformation/.
 """
 
 from oct2py import octave
+import numpy as np
 
 def gc(features , stride, mdl):
     """
@@ -26,6 +27,9 @@ def gc(features , stride, mdl):
     stride = float(stride)
     mdl = float(mdl)
     result = octave.gc(features, stride, mdl)
+    # In case of one participant octave returns a single float
+    if isinstance(result, float):
+        return np.array([result], dtype=int)
     # Octave returns a n*1 column (2 dimensional in numpy terms)
     result = result.T[0]
     # It came back as np.float64, should be ints

@@ -59,7 +59,7 @@ See `gcff.py`.
 #### Using as a web server
 
 - Modify `server_settings.py` to your needs.
-- `python server.py`.
+- Run the server with stride and mdl configured using command line arguments: `python server.py 1 100` (stride is 1, mdl is 100).
 - Optionally, check that everything runs smoothly from another terminal:
 ```bash
 curl --header "Content-Type: text/csv" --data "`cat features_example.csv`" http://localhost:5000/

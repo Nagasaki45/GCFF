@@ -5,7 +5,7 @@ by Francesco Setti, Chris Russell, Chiara Bassetti and Marco Cristani
 
 ### Introduction
 
-> *An F-formation arises whenever two or more people sustain a spatial and orientational relationship in which the space between them is one to which they have equal, direct, and exclusive access.*  
+> *An F-formation arises whenever two or more people sustain a spatial and orientational relationship in which the space between them is one to which they have equal, direct, and exclusive access.*
 > [A. Kendon, 1990]
 
 GCFF is a method to detect F-formations in static images, leveraging on the power of graph-cuts algorithms in clustering graphs.
@@ -36,6 +36,34 @@ If you find GCFF useful in your research, please consider citing:
         year={2015},
         publisher={Public Library of Science}
     }
+
+
+### Getting started
+
+#### System requirements:
+* MATLAB with a supported compiler
+
+#### Installation:
+1. Clone the GCFF repository:
+
+    ```Shell
+    $ git clone https://github.com/franzsetti/GCFF.git
+    ```
+
+    Lets call the directory you cloned `GCFF_ROOT`.
+
+2. The repository already contains mex files for Windows and Linux 64bit machines. If you have a different system, you will need to mex the files again. To do that: open Matlab, move to the graphopt subfolder and run compile.m script.
+
+    ```Matlab
+    > cd GCFF_ROOT/graphopt
+    > compile.m
+    ```
+
+3. Add the folder and subfolders to matlab path
+
+    ```Matlab
+    > addpath(genpath(GCFF_ROOT)) ;
+    ```
 
 
 ### Using with python

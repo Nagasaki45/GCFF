@@ -17,28 +17,19 @@ import numpy as np
 
 import gcff
 
-stride = float(sys.argv[1])
-mdl = float(sys.argv[2])
-try:
-    max_change_per_second = float(sys.argv[3])
-except IndexError:
-    max_change_per_second = 1
-
-
 app = Flask(__name__)
-continuous = gcff.ContinuousGC(stride, mdl, max_change_per_second)
 
 
 @app.route('/', methods=['POST'])
 def gcff_handler():
-    features = parse_features()
+    features = parse_features(request.data)
     seg = gcff.gc(features, stride=stride, mdl=mdl)
     return ','.join(str(x) for x in seg)
 
 
 @app.route('/continuous', methods=['POST'])
 def continuous_handler():
-    features = parse_features()
+    features = parse_features(request.data)
     continuous.update(features)
     return json.dumps(continuous.f_formations, cls=NumpyJSONEncoder)
 
@@ -53,10 +44,22 @@ class NumpyJSONEncoder(json.JSONEncoder):
         return super().default(obj)
 
 
-def parse_features():
-    binary_io = io.BytesIO(request.data)
-    return np.genfromtxt(binary_io, delimiter=',')
+def parse_features(data):
+    binary_io = io.BytesIO(data)
+    features = np.genfromtxt(binary_io, delimiter=',')
+    if features.ndim < 2:
+        return features[np.newaxis, :]
+    return features
 
 
 if __name__ == "__main__":
+    stride = float(sys.argv[1])
+    mdl = float(sys.argv[2])
+    try:
+        max_change_per_second = float(sys.argv[3])
+    except IndexError:
+        max_change_per_second = 1
+
+    continuous = gcff.ContinuousGC(stride, mdl, max_change_per_second)
+
     app.run()

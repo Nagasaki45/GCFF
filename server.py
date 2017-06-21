@@ -4,9 +4,11 @@ should be given as command line arguments.
 
 Usage:
 
-  python server.py 1 100  # stride = 1, mdl = 100
+  python server.py 1 100    # stride = 1, mdl = 100
+  python server.py 1 100 3  # stride = 1, mdl = 100, max_change_per_second = 3
 """
 
+import json
 import io
 import sys
 
@@ -17,17 +19,43 @@ import gcff
 
 stride = float(sys.argv[1])
 mdl = float(sys.argv[2])
+try:
+    max_change_per_second = float(sys.argv[3])
+except IndexError:
+    max_change_per_second = 1
 
 
 app = Flask(__name__)
+continuous = gcff.ContinuousGC(stride, mdl, max_change_per_second)
 
 
 @app.route('/', methods=['POST'])
 def gcff_handler():
-    binary_io = io.BytesIO(request.data)
-    features = np.genfromtxt(binary_io, delimiter=',')
+    features = parse_features()
     seg = gcff.gc(features, stride=stride, mdl=mdl)
     return ','.join(str(x) for x in seg)
+
+
+@app.route('/continuous', methods=['POST'])
+def continuous_handler():
+    features = parse_features()
+    continuous.update(features)
+    return json.dumps(continuous.f_formations, cls=NumpyJSONEncoder)
+
+
+class NumpyJSONEncoder(json.JSONEncoder):
+
+    def default(self, obj):
+        if isinstance(obj, np.int32):
+            return int(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
+
+def parse_features():
+    binary_io = io.BytesIO(request.data)
+    return np.genfromtxt(binary_io, delimiter=',')
 
 
 if __name__ == "__main__":

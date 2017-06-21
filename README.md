@@ -82,7 +82,7 @@ If you find GCFF useful in your research, please consider citing:
 
 #### Using in code
 
-See `gcff.py`.
+See `gcff.py` for the two ways to use the python wrapper, to call the GCFF algorithm directly, or to track F-Formations over time.
 
 #### Using as a web server
 
@@ -92,6 +92,10 @@ See `gcff.py`.
 curl --header "Content-Type: text/csv" --data "`cat features_example.csv`" http://localhost:5000/
 ```
 - Build a client in whatever language you want!
+
+##### Track F-Formations over time
+
+If knowing the F-Formation of static images or frames is not enough for you, and you need to identify F-Formations over time, you can use the `/continuous` endpoing of the server. See the `gcff.ContinuousGC` for more information.
 
 
 ### Data
